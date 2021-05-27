@@ -22,13 +22,11 @@ jobs:
           environment-file: environment.yml
           python-version: 3.9
           auto-activate-base: false
-      
-      - name: Run Makefile
-        run: make
 
       - name: Build # Build Jupyter Book
         shell: bash -l {0}
         run: |
+          make
           cd jb
           jb build .
           touch _build/html/.nojekyll

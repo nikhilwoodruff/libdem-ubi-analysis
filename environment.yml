@@ -1,4 +1,4 @@
-name: reponame
+name: libdem-ubi-analysis
 dependencies:
 - python
 - plotly
