@@ -203,19 +203,26 @@
             <nav id="bd-toc-nav">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#funding-breakdown">
-   Funding breakdown
+  <a class="reference internal nav-link" href="#reform-effects">
+   Reform effects
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#ubi-variants">
-   UBI variants
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#distributions">
-   Distributions
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#funding-breakdown">
+     Funding breakdown
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ubi-variants">
+     UBI variants
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#distributional-effects">
+     Distributional effects
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -230,9 +237,11 @@
                 
   <div class="section" id="analysis">
 <h1>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline">¶</a></h1>
-<p>The policy paper outlines four different UBI levels, each with different net costs after UBI and tax-benefit changes.</p>
+<p>The policy paper outlines four different UBI levels, each with different net costs after UBI and tax-benefit changes. This response is in two main parts: the first, which simulates the reforms and evaluates the distributional impacts as well as poverty changes, and the second, which answers and provides evidence for the report’s questions.</p>
+<div class="section" id="reform-effects">
+<h2>Reform effects<a class="headerlink" href="#reform-effects" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="funding-breakdown">
-<h2>Funding breakdown<a class="headerlink" href="#funding-breakdown" title="Permalink to this headline">¶</a></h2>
+<h3>Funding breakdown<a class="headerlink" href="#funding-breakdown" title="Permalink to this headline">¶</a></h3>
 <p>Below specifies the first reform, and calculates the effects of each component. This is a £45/week UBI for working-age adults, funded in part by including it in benefit means tests<a class="footnote-reference brackets" href="#id3" id="id1">1</a>, reducing the Personal Allowance for working-age adults and reducing the National Insurance Primary Threshold to £50/week. Overall, the Personal Allowance provides most of the funding, and the inclusion in means tested benefits provides only a small part that could be covered by reducing the personal allowance further.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
@@ -313,7 +322,7 @@
 </div>
 </div>
 <div class="section" id="ubi-variants">
-<h2>UBI variants<a class="headerlink" href="#ubi-variants" title="Permalink to this headline">¶</a></h2>
+<h3>UBI variants<a class="headerlink" href="#ubi-variants" title="Permalink to this headline">¶</a></h3>
 <p>The policy paper looks at four UBI proposals, characterized mainly by their UBI level: £45, £60, £75 and £95 per week. The below table shows the estimated cost of the reforms (as far as their funding methods can be implied from the paper<a class="footnote-reference brackets" href="#id4" id="id2">2</a>). In all reforms except the smallest UBI, the estimated costs are within the ranges estimated by the paper. The wording of the paper implies that in at least some of the reforms, the tax changes are not as large, so it is plausible that the paper assigned a higher personal allowance in the smallest UBI policy, reducing its funding and therefore increasing its cost.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
@@ -328,12 +337,12 @@
     <span class="n">cost</span> <span class="o">=</span> <span class="n">net_cost</span><span class="p">(</span><span class="n">baseline</span><span class="p">,</span> <span class="n">sim</span><span class="p">)</span>
     <span class="n">baseline_poverty</span> <span class="o">=</span> <span class="n">baseline</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;in_poverty_bhc&quot;</span><span class="p">,</span> <span class="n">map_to</span><span class="o">=</span><span class="s2">&quot;person&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
     <span class="n">poverty_change</span> <span class="o">=</span> <span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;in_poverty_bhc&quot;</span><span class="p">,</span> <span class="n">map_to</span><span class="o">=</span><span class="s2">&quot;person&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">baseline_poverty</span><span class="p">)</span> <span class="o">/</span> <span class="n">baseline_poverty</span>
-    <span class="k">return</span> <span class="n">cost</span><span class="p">,</span> <span class="n">poverty_change</span>
+    <span class="k">return</span> <span class="n">sim</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">poverty_change</span>
 
 <span class="n">reforms</span> <span class="o">=</span> <span class="p">(</span><span class="n">ubi_45</span><span class="p">,</span> <span class="n">ubi_60</span><span class="p">,</span> <span class="n">ubi_75</span><span class="p">,</span> <span class="n">ubi_95</span><span class="p">)</span>
 <span class="n">names</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;£45&quot;</span><span class="p">,</span> <span class="s2">&quot;£60&quot;</span><span class="p">,</span> <span class="s2">&quot;£75&quot;</span><span class="p">,</span> <span class="s2">&quot;£95&quot;</span><span class="p">)</span>
 <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">get_results</span><span class="p">,</span> <span class="n">reforms</span><span class="p">))</span>
-<span class="n">costs</span><span class="p">,</span> <span class="n">poverty_changes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">results</span><span class="p">))</span>
+<span class="n">sims</span><span class="p">,</span> <span class="n">costs</span><span class="p">,</span> <span class="n">poverty_changes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">results</span><span class="p">))</span>
 <span class="n">libdem_costings</span> <span class="o">=</span> <span class="p">(</span>
     <span class="s2">&quot;13-18&quot;</span><span class="p">,</span>
     <span class="s2">&quot;22-28&quot;</span><span class="p">,</span>
@@ -404,8 +413,53 @@
 </div></div></div>
 </div>
 </div>
-<div class="section" id="distributions">
-<h2>Distributions<a class="headerlink" href="#distributions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="distributional-effects">
+<h3>Distributional effects<a class="headerlink" href="#distributional-effects" title="Permalink to this headline">¶</a></h3>
+<p>The above effects only show the picture on the population as a whole. Below shows the average gain to members of the population by their household’s equivalised disposable income.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+<span class="kn">from</span> <span class="nn">ubicenter</span> <span class="kn">import</span> <span class="n">format_fig</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+
+<span class="n">income</span> <span class="o">=</span> <span class="n">baseline</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;equiv_household_net_income&quot;</span><span class="p">,</span> <span class="n">map_to</span><span class="o">=</span><span class="s2">&quot;person&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">sim</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sims</span><span class="p">,</span> <span class="n">names</span><span class="p">):</span>
+    <span class="n">gain</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;household_net_income&quot;</span><span class="p">,</span> <span class="n">map_to</span><span class="o">=</span><span class="s2">&quot;person&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">baseline</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;household_net_income&quot;</span><span class="p">,</span> <span class="n">map_to</span><span class="o">=</span><span class="s2">&quot;person&quot;</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Bar</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">gain</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">income</span><span class="o">.</span><span class="n">decile_rank</span><span class="p">())</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span>
+
+<span class="n">format_fig</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Gains by income decile&quot;</span><span class="p">,</span> <span class="n">xaxis_title</span><span class="o">=</span><span class="s2">&quot;Equivalised disposable income decile&quot;</span><span class="p">,</span> <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">&quot;Absolute gain per year&quot;</span><span class="p">,</span> <span class="n">yaxis_tickprefix</span><span class="o">=</span><span class="s2">&quot;£&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>                            <div id="3506ca7d-1fa3-4b47-a41a-1167907314c6" class="plotly-graph-div" style="height:800px; width:1000px;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("3506ca7d-1fa3-4b47-a41a-1167907314c6")) {                    Plotly.newPlot(                        "3506ca7d-1fa3-4b47-a41a-1167907314c6",                        [{"name": "\u00a345", "type": "bar", "y": [2187.342790102924, 1169.5167741366993, 948.7235395513856, 651.6846170588486, 483.93123191702756, 282.04919185717324, 86.05114147967969, -71.86258572349578, 53.42638808782289, 512.2480380553473]}, {"name": "\u00a360", "type": "bar", "y": [3101.591454765557, 2030.311206073336, 1873.0753240946901, 1655.4414592848818, 1653.1354129088254, 1607.9621898271232, 1521.9489017592475, 1477.4787501052242, 1873.7378218545136, 2993.9902443976443]}, {"name": "\u00a375", "type": "bar", "y": [4026.181501238176, 2912.2638487311187, 2812.729320188884, 2672.002958878839, 2833.1876405389326, 2943.54342026686, 2970.263007485878, 3044.976564562984, 3732.1519092937733, 5520.233401221469]}, {"name": "\u00a395", "type": "bar", "y": [5269.450204123381, 4114.501366863504, 4083.8390158449947, 4044.0274439073464, 4415.81490496936, 4734.725807922615, 4937.5133251750385, 5143.712973958833, 6222.647390121487, 8915.325997049651]}],                        {"font": {"family": "Roboto"}, "height": 800, "hoverlabel": {"align": "right"}, "images": [{"sizex": 0.12, "sizey": 0.12, "source": "https://raw.githubusercontent.com/UBICenter/blog/master/jb/_static/ubi_center_logo_wide_blue.png", "x": 0.98, "xanchor": "right", "xref": "paper", "y": -0.12, "yanchor": "bottom", "yref": "paper"}], "paper_bgcolor": "white", "plot_bgcolor": "white", "template": {"data": {"bar": [{"error_x": {"color": "#2a3f5f"}, "error_y": {"color": "#2a3f5f"}, "marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "bar"}], "barpolar": [{"marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "barpolar"}], "carpet": [{"aaxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "baxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "type": "carpet"}], "choropleth": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "choropleth"}], "contour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "contour"}], "contourcarpet": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "contourcarpet"}], "heatmap": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmap"}], "heatmapgl": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmapgl"}], "histogram": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "histogram"}], "histogram2d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2d"}], "histogram2dcontour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2dcontour"}], "mesh3d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "mesh3d"}], "parcoords": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "parcoords"}], "pie": [{"automargin": true, "type": "pie"}], "scatter": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter"}], "scatter3d": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter3d"}], "scattercarpet": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattercarpet"}], "scattergeo": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergeo"}], "scattergl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergl"}], "scattermapbox": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattermapbox"}], "scatterpolar": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolar"}], "scatterpolargl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolargl"}], "scatterternary": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterternary"}], "surface": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "surface"}], "table": [{"cells": {"fill": {"color": "#EBF0F8"}, "line": {"color": "white"}}, "header": {"fill": {"color": "#C8D4E3"}, "line": {"color": "white"}}, "type": "table"}]}, "layout": {"annotationdefaults": {"arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1}, "autotypenumbers": "strict", "coloraxis": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "colorscale": {"diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]], "sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}, "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": {"color": "#2a3f5f"}, "geo": {"bgcolor": "white", "lakecolor": "white", "landcolor": "#E5ECF6", "showlakes": true, "showland": true, "subunitcolor": "white"}, "hoverlabel": {"align": "left"}, "hovermode": "closest", "mapbox": {"style": "light"}, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": {"angularaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "radialaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "scene": {"xaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "yaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "zaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}}, "shapedefaults": {"line": {"color": "#2a3f5f"}}, "ternary": {"aaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "baxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "caxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "title": {"x": 0.05}, "xaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}, "yaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}}}, "title": {"font": {"size": 20}, "text": "Gains by income decile"}, "width": 1000, "xaxis": {"tickfont": {"size": 14}, "title": {"font": {"color": "black", "size": 16}, "text": "Equivalised disposable income decile"}}, "yaxis": {"tickfont": {"size": 14}, "tickprefix": "\u00a3", "title": {"font": {"color": "black", "size": 16}, "text": "Absolute gain per year"}}},                        {"displayModeBar": false, "responsive": true}                    ).then(function(){
+
+var gd = document.getElementById('3506ca7d-1fa3-4b47-a41a-1167907314c6');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div></div></div>
+</div>
 <div class="toctree-wrapper compound">
 </div>
 <hr class="footnotes docutils" />
@@ -417,6 +471,7 @@
 <dd><p>The paper does not specify whether the tax changes are the same in each reform. Here, we have assumed that the PA and PT are reduced to £50/week for all reforms.</p>
 </dd>
 </dl>
+</div>
 </div>
 </div>
 
