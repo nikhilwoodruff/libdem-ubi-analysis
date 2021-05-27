@@ -9,6 +9,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           persist-credentials: false
+      
+      - name: Run Makefile
+        run: make
 
       - name: Setup Miniconda
         uses: conda-incubator/setup-miniconda@v2
