@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Analysis &#8212; reponame</title>
+    <title>Analysis &#8212; Lib Dem UBI Analysis</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -75,7 +75,7 @@
       <img src="_static/ubi_center_logo_wide_blue.png" class="logo" alt="logo">
       
       
-      <h1 class="site-logo" id="site-title">reponame</h1>
+      <h1 class="site-logo" id="site-title">Lib Dem UBI Analysis</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
@@ -203,8 +203,18 @@
             <nav id="bd-toc-nav">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#reform-specification">
-   Reform Specification
+  <a class="reference internal nav-link" href="#funding-breakdown">
+   Funding breakdown
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ubi-variants">
+   UBI variants
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#distributions">
+   Distributions
   </a>
  </li>
 </ul>
@@ -221,16 +231,16 @@
   <div class="section" id="analysis">
 <h1>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline">¶</a></h1>
 <p>The policy paper outlines four different UBI levels, each with different net costs after UBI and tax-benefit changes.</p>
-<div class="section" id="reform-specification">
-<h2>Reform Specification<a class="headerlink" href="#reform-specification" title="Permalink to this headline">¶</a></h2>
-<p>Below specifies the first reform, and calculates the effects of each component. This is a £45/week UBI for working-age adults, funded in part by including it in benefit means tests, reducing the Personal Allowance for working-age adults and reducing the National Insurance Primary Threshold to</p>
-<div class="cell docutils container">
+<div class="section" id="funding-breakdown">
+<h2>Funding breakdown<a class="headerlink" href="#funding-breakdown" title="Permalink to this headline">¶</a></h2>
+<p>Below specifies the first reform, and calculates the effects of each component. This is a £45/week UBI for working-age adults, funded in part by including it in benefit means tests<a class="footnote-reference brackets" href="#id3" id="id1">1</a>, reducing the Personal Allowance for working-age adults and reducing the National Insurance Primary Threshold to £50/week. Overall, the Personal Allowance provides most of the funding, and the inclusion in means tested benefits provides only a small part that could be covered by reducing the personal allowance further.</p>
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openfisca_uk</span> <span class="kn">import</span> <span class="n">Microsimulation</span>
 <span class="kn">from</span> <span class="nn">reform</span> <span class="kn">import</span> <span class="n">WA_adult_UBI</span><span class="p">,</span> <span class="n">include_UBI_in_means_tests</span><span class="p">,</span> <span class="n">set_PA</span><span class="p">,</span> <span class="n">set_PA_for_WA_adults</span><span class="p">,</span> <span class="n">set_PT</span><span class="p">,</span> <span class="n">net_cost</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">trange</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">trange</span><span class="p">,</span> <span class="n">tqdm</span>
 
 <span class="n">ubi_45</span> <span class="o">=</span> <span class="p">(</span><span class="n">WA_adult_UBI</span><span class="p">(</span><span class="mi">45</span> <span class="o">*</span> <span class="mi">52</span><span class="p">),</span> <span class="n">include_UBI_in_means_tests</span><span class="p">(),</span> <span class="n">set_PA_for_WA_adults</span><span class="p">(</span><span class="mi">2500</span><span class="p">),</span> <span class="n">set_PT</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
 <span class="n">baseline</span> <span class="o">=</span> <span class="n">Microsimulation</span><span class="p">()</span>
@@ -242,9 +252,9 @@
     <span class="n">net_costs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">net_cost</span><span class="p">(</span><span class="n">baseline</span><span class="p">,</span> <span class="n">Microsimulation</span><span class="p">(</span><span class="n">ubi_45</span><span class="p">[:</span><span class="n">i</span><span class="p">]))]</span>
 <span class="n">net_costs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">net_costs</span><span class="p">)</span>
 
-<span class="n">net_cost</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">((</span><span class="n">net_costs</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">net_costs</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mf">1e+9</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">resulting_costs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">((</span><span class="n">net_costs</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">net_costs</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mf">1e+9</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
-<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;Component&quot;</span><span class="p">:</span> <span class="n">names</span><span class="p">,</span> <span class="s2">&quot;Net cost (£bn)&quot;</span><span class="p">:</span> <span class="n">net_cost</span><span class="p">,</span> <span class="s2">&quot;Resulting net cost&quot;</span><span class="p">:</span> <span class="n">net_cost</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()})</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;Component&quot;</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;Component&quot;</span><span class="p">:</span> <span class="n">names</span><span class="p">,</span> <span class="s2">&quot;Net cost (£bn)&quot;</span><span class="p">:</span> <span class="n">resulting_costs</span><span class="p">,</span> <span class="s2">&quot;Resulting net cost (£bn)&quot;</span><span class="p">:</span> <span class="n">resulting_costs</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()})</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;Component&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -301,8 +311,112 @@
 </table>
 </div></div></div>
 </div>
+</div>
+<div class="section" id="ubi-variants">
+<h2>UBI variants<a class="headerlink" href="#ubi-variants" title="Permalink to this headline">¶</a></h2>
+<p>The policy paper looks at four UBI proposals, characterized mainly by their UBI level: £45, £60, £75 and £95 per week. The below table shows the estimated cost of the reforms (as far as their funding methods can be implied from the paper<a class="footnote-reference brackets" href="#id4" id="id2">2</a>). In all reforms except the smallest UBI, the estimated costs are within the ranges estimated by the paper. The wording of the paper implies that in at least some of the reforms, the tax changes are not as large, so it is plausible that the paper assigned a higher personal allowance in the smallest UBI policy, reducing its funding and therefore increasing its cost.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ubi_60</span> <span class="o">=</span> <span class="p">(</span><span class="n">WA_adult_UBI</span><span class="p">(</span><span class="mi">60</span> <span class="o">*</span> <span class="mi">52</span><span class="p">),</span> <span class="n">include_UBI_in_means_tests</span><span class="p">(),</span> <span class="n">set_PA_for_WA_adults</span><span class="p">(</span><span class="mi">2500</span><span class="p">),</span> <span class="n">set_PT</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
+<span class="n">ubi_75</span> <span class="o">=</span> <span class="p">(</span><span class="n">WA_adult_UBI</span><span class="p">(</span><span class="mi">75</span> <span class="o">*</span> <span class="mi">52</span><span class="p">),</span> <span class="n">include_UBI_in_means_tests</span><span class="p">(),</span> <span class="n">set_PA_for_WA_adults</span><span class="p">(</span><span class="mi">2500</span><span class="p">),</span> <span class="n">set_PT</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
+<span class="n">ubi_95</span> <span class="o">=</span> <span class="p">(</span><span class="n">WA_adult_UBI</span><span class="p">(</span><span class="mi">95</span> <span class="o">*</span> <span class="mi">52</span><span class="p">),</span> <span class="n">include_UBI_in_means_tests</span><span class="p">(),</span> <span class="n">set_PA_for_WA_adults</span><span class="p">(</span><span class="mi">2500</span><span class="p">),</span> <span class="n">set_PT</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
+
+<span class="kn">from</span> <span class="nn">openfisca_uk.api</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">def</span> <span class="nf">get_results</span><span class="p">(</span><span class="n">reform</span><span class="p">:</span> <span class="n">Reform</span><span class="p">):</span>
+    <span class="n">sim</span> <span class="o">=</span> <span class="n">Microsimulation</span><span class="p">(</span><span class="n">reform</span><span class="p">)</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">net_cost</span><span class="p">(</span><span class="n">baseline</span><span class="p">,</span> <span class="n">sim</span><span class="p">)</span>
+    <span class="n">baseline_poverty</span> <span class="o">=</span> <span class="n">baseline</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;in_poverty_bhc&quot;</span><span class="p">,</span> <span class="n">map_to</span><span class="o">=</span><span class="s2">&quot;person&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">poverty_change</span> <span class="o">=</span> <span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;in_poverty_bhc&quot;</span><span class="p">,</span> <span class="n">map_to</span><span class="o">=</span><span class="s2">&quot;person&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">baseline_poverty</span><span class="p">)</span> <span class="o">/</span> <span class="n">baseline_poverty</span>
+    <span class="k">return</span> <span class="n">cost</span><span class="p">,</span> <span class="n">poverty_change</span>
+
+<span class="n">reforms</span> <span class="o">=</span> <span class="p">(</span><span class="n">ubi_45</span><span class="p">,</span> <span class="n">ubi_60</span><span class="p">,</span> <span class="n">ubi_75</span><span class="p">,</span> <span class="n">ubi_95</span><span class="p">)</span>
+<span class="n">names</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;£45&quot;</span><span class="p">,</span> <span class="s2">&quot;£60&quot;</span><span class="p">,</span> <span class="s2">&quot;£75&quot;</span><span class="p">,</span> <span class="s2">&quot;£95&quot;</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">get_results</span><span class="p">,</span> <span class="n">reforms</span><span class="p">))</span>
+<span class="n">costs</span><span class="p">,</span> <span class="n">poverty_changes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">results</span><span class="p">))</span>
+<span class="n">libdem_costings</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;13-18&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;22-28&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;48-56&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;84-93&quot;</span>
+<span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;UBI&quot;</span><span class="p">:</span> <span class="n">names</span><span class="p">,</span> <span class="s2">&quot;LD Net Cost (£bn)&quot;</span><span class="p">:</span> <span class="n">libdem_costings</span><span class="p">,</span> <span class="s2">&quot;Net cost (£bn)&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">costs</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="mf">1e+9</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="s2">&quot;Poverty change (%)&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">poverty_changes</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">))})</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;UBI&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>LD Net Cost (£bn)</th>
+      <th>Net cost (£bn)</th>
+      <th>Poverty change (%)</th>
+    </tr>
+    <tr>
+      <th>UBI</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>£45</th>
+      <td>13-18</td>
+      <td>-8.3</td>
+      <td>-16.1</td>
+    </tr>
+    <tr>
+      <th>£60</th>
+      <td>22-28</td>
+      <td>21.0</td>
+      <td>-26.8</td>
+    </tr>
+    <tr>
+      <th>£75</th>
+      <td>48-56</td>
+      <td>50.7</td>
+      <td>-35.5</td>
+    </tr>
+    <tr>
+      <th>£95</th>
+      <td>84-93</td>
+      <td>90.6</td>
+      <td>-45.6</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="distributions">
+<h2>Distributions<a class="headerlink" href="#distributions" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 </div>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Universal Credit and the Tax Credits simulated.</p>
+</dd>
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>The paper does not specify whether the tax changes are the same in each reform. Here, we have assumed that the PA and PT are reduced to £50/week for all reforms.</p>
+</dd>
+</dl>
 </div>
 </div>
 
