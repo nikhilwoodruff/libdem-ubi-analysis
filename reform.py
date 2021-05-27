@@ -168,4 +168,4 @@ def set_PT(value: float):
     return set_parameter("tax.national_insurance.class_1.thresholds.primary_threshold", value)
 
 def net_cost(baseline, simulation):
-    return simulation.calc("net_income").sum() - baseline.calc("net_income").sum() - simulation.calc("employer_NI").sum() + baseline.calc("employer_NI").sum()
+    return simulation.calc("net_income").sum() - baseline.calc("net_income").sum()
