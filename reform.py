@@ -116,11 +116,129 @@ def include_UBI_in_means_tests() -> Reform:
                 add(benunit, period, EXEMPT_BENEFITS, options=[ADD]) > 0
             )
             return income * not_(on_exempt_benefits)
+    
+    class housing_benefit_applicable_income(Variable):
+        value_type = float
+        entity = BenUnit
+        label = u"Relevant income for Housing Benefit means test"
+        definition_period = WEEK
+
+        def formula(benunit, period, parameters):
+            WTC = parameters(period).benefit.tax_credits.working_tax_credit
+            means_test = parameters(period).benefit.housing_benefit.means_test
+            BENUNIT_MEANS_TESTED_BENEFITS = [
+                "child_benefit",
+                "income_support",
+                "JSA_income",
+                "ESA_income",
+            ]
+            INCOME_COMPONENTS = [
+                "employment_income",
+                "trading_income",
+                "property_income",
+                "pension_income",
+                "UBI"
+            ]
+            benefits = add(benunit, period, BENUNIT_MEANS_TESTED_BENEFITS)
+            income = aggr(benunit, period, INCOME_COMPONENTS, options=[DIVIDE])
+            tax = aggr(
+                benunit,
+                period,
+                ["income_tax", "national_insurance"],
+                options=[DIVIDE],
+            )
+            income += aggr(benunit, period, ["personal_benefits"])
+            income += add(benunit, period, ["tax_credits"], options=[DIVIDE])
+            income -= tax
+            income -= (
+                aggr(benunit, period, ["pension_contributions"], options=[DIVIDE])
+                * 0.5
+            )
+            income += benefits
+            num_children = benunit.nb_persons(BenUnit.CHILD)
+            max_childcare_amount = (
+                num_children == 1
+            ) * WTC.elements.childcare_1 + (
+                num_children > 1
+            ) * WTC.elements.childcare_2
+            childcare_element = min_(
+                max_childcare_amount,
+                benunit.sum(
+                    benunit.members("childcare_cost", period, options=[ADD])
+                ),
+            )
+            applicable_income = max_(
+                0,
+                income
+                - benunit("is_single_person", period)
+                * means_test.income_disregard_single
+                - benunit("is_couple", period) * means_test.income_disregard_couple
+                - benunit("is_lone_parent", period)
+                * means_test.income_disregard_lone_parent
+                - (
+                    (
+                        benunit.sum(benunit.members("hours_worked", period))
+                        > means_test.worker_hours
+                    )
+                    + (
+                        benunit("is_lone_parent", period)
+                        * benunit.sum(benunit.members("hours_worked", period))
+                        > WTC.min_hours.lower
+                    )
+                )
+                * means_test.worker_income_disregard
+                - childcare_element,
+            )
+            return applicable_income
+    
+    class income_support_applicable_income(Variable):
+        value_type = float
+        entity = BenUnit
+        label = u"Relevant income for Income Support means test"
+        definition_period = WEEK
+
+        def formula(benunit, period, parameters):
+            IS = parameters(period).benefit.income_support
+            INCOME_COMPONENTS = [
+                "employment_income",
+                "trading_income",
+                "property_income",
+                "pension_income",
+                "UBI"
+            ]
+            income = aggr(benunit, period, INCOME_COMPONENTS, options=[DIVIDE])
+            tax = aggr(
+                benunit,
+                period,
+                ["income_tax", "national_insurance"],
+                options=[DIVIDE],
+            )
+            income += aggr(benunit, period, ["personal_benefits"])
+            income += add(benunit, period, ["child_benefit"])
+            income -= tax
+            income -= (
+                aggr(benunit, period, ["pension_contributions"], options=[DIVIDE])
+                * 0.5
+            )
+            family_type = benunit("family_type")
+            families = family_type.possible_values
+            income = max_(
+                0,
+                income
+                - (family_type == families.SINGLE)
+                * IS.means_test.income_disregard_single
+                - benunit("is_couple") * IS.means_test.income_disregard_couple
+                - (family_type == families.LONE_PARENT)
+                * IS.means_test.income_disregard_lone_parent,
+            )
+            return income
 
     class reform(Reform):
         def apply(self):
             self.update_variable(universal_credit_income_reduction)
             self.update_variable(tax_credits_applicable_income)
+            self.update_variable(housing_benefit_applicable_income)
+            self.update_variable(income_support_applicable_income)
     
     return reform
 
