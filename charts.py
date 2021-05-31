@@ -4,9 +4,9 @@ import plotly.graph_objects as go
 
 def intra_decile_graph(baseline, reform_sim):
     COLORS = (
-        "#9E9E9E",
-        "#E0E0E0",
-        "#444444",
+        "#616161",
+        "#BDBDBD",
+        "#FAFAFA",
         "#C5E1A5",
         "#558B2F",
     )
