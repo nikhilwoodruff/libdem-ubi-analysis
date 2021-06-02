@@ -3,6 +3,44 @@ from openfisca_uk.api import *
 from openfisca_uk import Microsimulation
 from openfisca_uk.api import *
 
+def child_WA_adult_UBI(revenue: float, sim: Microsimulation, child_split: float) -> Reform:
+    adult_ubi = revenue * (1 - child_split) / sim.calc("is_WA_adult").sum()
+    child_ubi = revenue * child_split / sim.calc("is_child").sum()
+    class UBI(Variable):
+        value_type = float
+        entity = Person
+        definition_period = YEAR
+        
+        def formula(person, period, parameters):
+            return person("is_WA_adult", period) * adult_ubi + person("is_child", period) * child_ubi
+    
+    class gross_income(Variable):
+        value_type = float
+        entity = Person
+        label = u"Gross income, including benefits"
+        definition_period = YEAR
+
+        def formula(person, period, parameters):
+            COMPONENTS = [
+                "employment_income",
+                "pension_income",
+                "self_employment_income",
+                "property_income",
+                "savings_interest_income",
+                "dividend_income",
+                "miscellaneous_income",
+                "benefits",
+                "UBI"
+            ]
+            return add(person, period, COMPONENTS)
+
+    class reform(Reform):
+        def apply(self):
+            self.add_variable(UBI)
+            self.update_variable(gross_income)
+    
+    return reform
+
 def WA_adult_UBI(value: float) -> Reform:
     class UBI(Variable):
         value_type = float
@@ -49,7 +87,7 @@ def include_UBI_in_means_tests() -> Reform:
 
         def formula(benunit, period, parameters):
             UC = parameters(period).benefit.universal_credit
-            INCOME_COMPONENTS = ["employment_income", "trading_income"]
+            INCOME_COMPONENTS = ["employment_income", "trading_income", "UBI"]
             earned_income = aggr(
                 benunit, period, INCOME_COMPONENTS, options=[DIVIDE]
             )
@@ -60,7 +98,7 @@ def include_UBI_in_means_tests() -> Reform:
                 options=[ADD],
             )
             unearned_income += aggr(
-                benunit, period, ["pension_income", "UBI"], options=[DIVIDE]
+                benunit, period, ["pension_income"], options=[DIVIDE]
             )
             earned_income = max_(
                 0,
