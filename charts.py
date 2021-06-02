@@ -10,7 +10,7 @@ NAMES = (
     )[::-1]
 
 def intra_decile_graph_data(baseline, *reform_sims):
-    
+    AMOUNTS = [45, 60, 75, 90]
     l = []
     for i, reform_sim in enumerate(reform_sims):
         income = baseline.calc("equiv_household_net_income", map_to="person")
@@ -27,6 +27,6 @@ def intra_decile_graph_data(baseline, *reform_sims):
                 if upper is not None:
                     subset = subset[rel_gain <= upper]
                 fractions += [subset.count() / rel_gain[decile == j].count()]
-            tmp = pd.DataFrame({"reform": i, "fraction": fractions, "decile": list(range(1, 11)), "band": name})
+            tmp = pd.DataFrame({"UBI": f"£{i}/week", "fraction": fractions, "decile": list(range(1, 11)), "band": name})
             l.append(tmp)
     return pd.concat(l).reset_index()
