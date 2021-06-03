@@ -7,7 +7,7 @@ NAMES = (
         "No change",
         "Lose less than 5%",
         "Lose more than 5%"
-    )[::-1]
+    )
 
 def intra_decile_graph_data(baseline, *reform_sims):
     AMOUNTS = [45, 60, 75, 90]
@@ -17,8 +17,8 @@ def intra_decile_graph_data(baseline, *reform_sims):
         decile = income.decile_rank()
         gain = reform_sim.calc("household_net_income", map_to="person") - baseline.calc("household_net_income", map_to="person")
         rel_gain = (gain / baseline.calc("household_net_income", map_to="person")).dropna()
-        bands = (None, -0.05, -1e-3, 1e-3, 0.05, None)
-        for lower, upper, name in zip(bands[:-1], bands[1:], NAMES):
+        bands = (None, 0.05, 1e-3, -1e-3, -0.05, None)
+        for upper, lower, name in zip(bands[:-1], bands[1:], NAMES):
             fractions = []
             for j in range(1, 11):
                 subset = rel_gain[decile == j]
