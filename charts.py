@@ -27,6 +27,6 @@ def intra_decile_graph_data(baseline, *reform_sims):
                 if upper is not None:
                     subset = subset[rel_gain <= upper]
                 fractions += [subset.count() / rel_gain[decile == j].count()]
-            tmp = pd.DataFrame({"UBI": f"£{AMOUNTS[i]}/week", "fraction": fractions, "decile": list(range(1, 11)), "band": name})
+            tmp = pd.DataFrame({"UBI": f"£{AMOUNTS[i]}/week", "fraction": fractions, "decile": list(range(1, 11)), "Outcome": name})
             l.append(tmp)
     return pd.concat(l).reset_index()
