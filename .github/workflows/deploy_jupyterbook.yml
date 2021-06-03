@@ -5,7 +5,7 @@ on:
       - main
 jobs:
   build-and-deploy:
-    if: github.repository == 'nikhilwoodruff/libdem-ubi-analysis'
+    if: github.repository == 'ubicenter/libdem-ubi-analysis'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
