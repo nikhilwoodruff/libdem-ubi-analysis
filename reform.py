@@ -77,6 +77,114 @@ def WA_adult_UBI(value: float) -> Reform:
     
     return reform
 
+def all_UBI(value: float) -> Reform:
+    class UBI(Variable):
+        value_type = float
+        entity = Person
+        definition_period = YEAR
+        
+        def formula(person, period, parameters):
+            return value
+    
+    class gross_income(Variable):
+        value_type = float
+        entity = Person
+        label = u"Gross income, including benefits"
+        definition_period = YEAR
+
+        def formula(person, period, parameters):
+            COMPONENTS = [
+                "employment_income",
+                "pension_income",
+                "self_employment_income",
+                "property_income",
+                "savings_interest_income",
+                "dividend_income",
+                "miscellaneous_income",
+                "benefits",
+                "UBI"
+            ]
+            return add(person, period, COMPONENTS)
+
+    class reform(Reform):
+        def apply(self):
+            self.add_variable(UBI)
+            self.update_variable(gross_income)
+    
+    return reform
+
+def adult_UBI(value: float) -> Reform:
+    class UBI(Variable):
+        value_type = float
+        entity = Person
+        definition_period = YEAR
+        
+        def formula(person, period, parameters):
+            return (person("is_adult", period) > 0) * value
+    
+    class gross_income(Variable):
+        value_type = float
+        entity = Person
+        label = u"Gross income, including benefits"
+        definition_period = YEAR
+
+        def formula(person, period, parameters):
+            COMPONENTS = [
+                "employment_income",
+                "pension_income",
+                "self_employment_income",
+                "property_income",
+                "savings_interest_income",
+                "dividend_income",
+                "miscellaneous_income",
+                "benefits",
+                "UBI"
+            ]
+            return add(person, period, COMPONENTS)
+
+    class reform(Reform):
+        def apply(self):
+            self.add_variable(UBI)
+            self.update_variable(gross_income)
+    
+    return reform
+
+def non_pensioner_UBI(value: float) -> Reform:
+    class UBI(Variable):
+        value_type = float
+        entity = Person
+        definition_period = YEAR
+        
+        def formula(person, period, parameters):
+            return (person("is_child", period) + person("is_WA_adult", period)) * value
+    
+    class gross_income(Variable):
+        value_type = float
+        entity = Person
+        label = u"Gross income, including benefits"
+        definition_period = YEAR
+
+        def formula(person, period, parameters):
+            COMPONENTS = [
+                "employment_income",
+                "pension_income",
+                "self_employment_income",
+                "property_income",
+                "savings_interest_income",
+                "dividend_income",
+                "miscellaneous_income",
+                "benefits",
+                "UBI"
+            ]
+            return add(person, period, COMPONENTS)
+
+    class reform(Reform):
+        def apply(self):
+            self.add_variable(UBI)
+            self.update_variable(gross_income)
+    
+    return reform
+
 def include_UBI_in_means_tests() -> Reform:
 
     class universal_credit_income_reduction(Variable):
